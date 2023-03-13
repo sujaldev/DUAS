@@ -3,30 +3,6 @@
   "description": "Schema for DUAS config file",
   "type": "object",
   "additionalProperties": false,
-  "properties": {
-    "meta": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "log_level": {
-          "description": "Logging level",
-          "type": "string",
-          "enum": [
-            "DEBUG",
-            "INFO",
-            "WARNING",
-            "ERROR",
-            "CRITICAL"
-          ]
-        },
-        "ping_retry_limit": {
-          "description": "Defines a global default for all hosts with an undeclared retry_limit in the ping property",
-          "type": "integer",
-          "minimum": 1
-        }
-      }
-    }
-  },
   "patternProperties": {
     "^(?!meta)[A-Za-z_][A-Za-z0-9_]*$": {
       "type": "object",
