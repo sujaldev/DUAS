@@ -1,0 +1,133 @@
+{
+  "title": "DUAS Config",
+  "description": "Schema for DUAS config file",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "meta": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "log_level": {
+          "description": "Logging level",
+          "type": "string",
+          "enum": [
+            "DEBUG",
+            "INFO",
+            "WARNING",
+            "ERROR",
+            "CRITICAL"
+          ]
+        },
+        "ping_retry_limit": {
+          "description": "Defines a global default for all hosts with an undeclared retry_limit in the ping property",
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    }
+  },
+  "patternProperties": {
+    "^(?!meta)[A-Za-z_][A-Za-z0-9_]*$": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "location": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Enter a valid ipv4/ipv6 address or a valid hostname",
+          "anyOf": [
+            {
+              "format": "ipv4"
+            },
+            {
+              "format": "ipv6"
+            },
+            {
+              "format": "hostname"
+            },
+            {
+              "format": "idna-hostname"
+            }
+          ]
+        },
+        "ping": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "If declared, ping will be used as one of the healthcheck methods for this host.",
+          "properties": {
+            "retry_limit": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        "heartbeat": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Declare to indicate this host has a heartbeat client installed and running.",
+          "properties": {
+            "port": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 65535
+            }
+          }
+        },
+        "http": {
+          "$ref": "#/$defs/http_https"
+        },
+        "https": {
+          "$ref": "#/$defs/http_https"
+        }
+      },
+      "required": [
+        "location"
+      ]
+    }
+  },
+  "$defs": {
+    "http_https": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "If declared, http/https will be used as one of the healthcheck methods for this host.",
+      "properties": {
+        "port": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 65535
+        },
+        "request_method": {
+          "type": "string",
+          "description": "One of 'GET' or 'POST'",
+          "enum": [
+            "GET",
+            "POST"
+          ]
+        },
+        "request_headers": {
+          "type": "object"
+        },
+        "request_data": {
+          "oneOf": [
+            {
+              "type": "object"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "response_headers": {
+          "type": "object",
+          "description": "Matches headers declared here against actual response"
+        },
+        "response_data": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Checks if given string is present in response data"
+        }
+      }
+    }
+  }
+}
