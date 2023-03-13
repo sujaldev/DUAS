@@ -41,19 +41,23 @@ class Config:
 
     def __validate_config(self):
         validator = Draft202012Validator(self.schema)
+        fixed_config = self.config.copy()
         for err in validator.iter_errors(self.config):
             err: ValidationError
             logging.warning(f"Error in config at '{'.'.join(err.absolute_path)}' >>  {err.message}")
 
             # Delete erroneous node from config
-            if (key := err.absolute_path[0]) in self.config:
-                del self.config[key]
+            if (key := err.absolute_path[0]) in fixed_config:
+                logging.warning(f"Deleting '{key}' from config...")
+                del fixed_config[key]
 
         # Check again with deleted nodes, i.e., nodes that had errors have been removed
-        if not validator.is_valid(self.config):
+        if not validator.is_valid(fixed_config):
             logging.critical("Non recoverable errors in config, quiting...")
             sys.exit(1)
 
-        if not self.config.keys():
+        if not fixed_config.keys():
             logging.warning("No hosts to check, empty config file!")
             sys.exit(0)
+
+        self.config = fixed_config

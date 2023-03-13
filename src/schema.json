@@ -4,7 +4,7 @@
   "type": "object",
   "additionalProperties": false,
   "patternProperties": {
-    "^(?!meta)[A-Za-z_][A-Za-z0-9_]*$": {
+    "^[A-Za-z_][A-Za-z0-9_]*$": {
       "type": "object",
       "additionalProperties": false,
       "properties": {

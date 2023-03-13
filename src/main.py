@@ -16,7 +16,7 @@ LOG_LEVEL = logging.DEBUG
 LOG_FORMAT = "[%(asctime)s] [%(levelname)s] %(message)s"
 LOG_DATE_FORMAT = "%a %d-%b-%Y %H:%M:%S"
 CONFIG_FILE_PATH = PROJECT_ROOT / "duas.conf.json"
-PUSH_LOOP_INTERVAL = 30
+PUSH_LOOP_INTERVAL = 5
 
 logging.basicConfig(
     level=LOG_LEVEL,
@@ -50,22 +50,25 @@ def host_is_alive(params: dict) -> bool:
 
 
 def push_loop(config: dict, shutdown_callback: Callable) -> None:
-    while True:
+    running = True
+    while running:
+        running = False
         for host, params in config.items():
             logging.info(f"Checking '{host}'")
             if host_is_alive(params):
                 sleep(PUSH_LOOP_INTERVAL)
+                running = True
                 break
-        shutdown_callback()
+    shutdown_callback()
 
 
 def shutdown():
-    logging.info("Shutting down...")
+    logging.info("-" * 20 + " Shutting Down " + "-" * 20)
     sys.exit(0)  # TODO: temporary, replace with actual shutdown command later
 
 
 def main():
-    logging.info("-" * 20, " Session start ", "-" * 20)
+    logging.info("-" * 20 + " Session start " + "-" * 20)
     config = Config(CONFIG_FILE_PATH).config
     push_loop(config, shutdown)
 
