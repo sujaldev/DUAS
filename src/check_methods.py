@@ -1,9 +1,11 @@
+import logging
 import subprocess
 
 __all__ = ["ping", "http", "https"]
 
 
 def ping(location: str, params: dict) -> bool:
+    logging.info(f"sending ping to '{location}'...")
     retry_limit = params.get("retry_limit", 1)
     return subprocess.call(
         ["ping", "-c", str(retry_limit), location],

@@ -1,22 +1,13 @@
 import sys
 import logging
 from time import sleep
-from pathlib import Path
 from typing import Callable
 
+from cli import *
 from config import Config
 from check_methods import *
 
-import colorlog  # TODO: add color logs
-from jsonschema import Draft202012Validator, ValidationError
-
-PROJECT_ROOT = Path(__file__).parent.resolve()
-# TODO: implement cli to remove hard coded variables
-LOG_LEVEL = logging.DEBUG
-LOG_FORMAT = "[%(asctime)s] [%(levelname)s] %(message)s"
-LOG_DATE_FORMAT = "%a %d-%b-%Y %H:%M:%S"
-CONFIG_FILE_PATH = PROJECT_ROOT / "duas.conf.json"
-PUSH_LOOP_INTERVAL = 5
+# import colorlog  # TODO: add color logs
 
 logging.basicConfig(
     level=LOG_LEVEL,
@@ -24,7 +15,7 @@ logging.basicConfig(
     datefmt=LOG_DATE_FORMAT,
     handlers=[
         logging.StreamHandler(sys.stdout),
-        logging.FileHandler("duas.log", "a"),
+        logging.FileHandler(LOG_FILE, "a"),
     ]
 )
 
@@ -45,7 +36,6 @@ def host_is_alive(params: dict) -> bool:
         if method_is_alive(location, method_params):
             logging.info(f"method '{check_method}' is up!")
             return True
-        logging.info(f"method '{check_method}' is down, checking via next method...")
     return False
 
 
@@ -56,7 +46,7 @@ def push_loop(config: dict, shutdown_callback: Callable) -> None:
         for host, params in config.items():
             logging.info(f"Checking '{host}'")
             if host_is_alive(params):
-                sleep(PUSH_LOOP_INTERVAL)
+                sleep(INTERVAL)
                 running = True
                 break
     shutdown_callback()
@@ -69,7 +59,7 @@ def shutdown():
 
 def main():
     logging.info("-" * 20 + " Session start " + "-" * 20)
-    config = Config(CONFIG_FILE_PATH).config
+    config = Config(CONFIG_FILE).config
     push_loop(config, shutdown)
 
 
