@@ -1,0 +1,11 @@
+[Unit]
+Description=DUAS Server
+After=multi-user.target
+
+[Service]
+Type=simple
+Restart=always
+ExecStart=/path/to/binary
+
+[Install]
+WantedBy=multi-user.target
