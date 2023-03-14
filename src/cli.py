@@ -16,7 +16,7 @@ parser = argparse.ArgumentParser(
 PROJECT_ROOT = Path(__file__).parent.resolve()
 
 parser.add_argument("-c", "--config", help="Path to the config file", default=PROJECT_ROOT / "duas.conf.json")
-parser.add_argument("-l", "--log-file", help="Path to the log file", default=PROJECT_ROOT / "duas.log")
+parser.add_argument("-l", "--log-file", help="Path to the log file")
 parser.add_argument("--log-level", help="Recommend level is INFO",
                     choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"], default="DEBUG")
 parser.add_argument("-f", "--log-format", help="See python's logging module docs for help",

@@ -10,6 +10,10 @@ from check_methods import *
 
 # import colorlog  # TODO: add color logs
 
+if LOG_FILE is None:
+    LOG_FILE = sys.argv[0]
+
+# noinspection PyUnboundLocalVariable
 logging.basicConfig(
     level=LOG_LEVEL,
     format=LOG_FORMAT,
