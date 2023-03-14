@@ -68,9 +68,13 @@ def shutdown():
 
 
 def main():
-    logging.info("-" * 20 + " Session start " + "-" * 20)
-    config = Config(CONFIG_FILE).config
-    push_loop(config, shutdown)
+    try:
+        logging.info("-" * 20 + " Session start " + "-" * 20)
+        config = Config(CONFIG_FILE).config
+        push_loop(config, shutdown)
+    except KeyboardInterrupt:
+        logging.info("Terminating...")
+        sys.exit(1)
 
 
 if __name__ == "__main__":
