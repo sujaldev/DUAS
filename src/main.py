@@ -2,6 +2,7 @@ import sys
 import logging
 import subprocess
 from time import sleep
+from pathlib import Path
 from typing import Callable
 
 from cli import *
@@ -11,7 +12,7 @@ from check_methods import *
 # import colorlog  # TODO: add color logs
 
 if LOG_FILE is None:
-    LOG_FILE = sys.argv[0]
+    LOG_FILE = Path(sys.argv[0]).parent.resolve() / "duas.log"
 
 # noinspection PyUnboundLocalVariable
 logging.basicConfig(
