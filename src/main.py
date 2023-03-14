@@ -58,6 +58,14 @@ def shutdown():
     if DRY_RUN:
         sys.exit(0)
 
+    try:
+        subprocess.run(
+            ["systemctl", "poweroff"], stdout=subprocess.DEVNULL
+        )
+    except Exception as e:
+        logging.critical(f"An error occurred while trying to shutdown: {e}")
+        # Not quiting here because maybe it could work on the next call
+
 
 def main():
     logging.info("-" * 20 + " Session start " + "-" * 20)
