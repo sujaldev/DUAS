@@ -1,5 +1,6 @@
 import sys
 import logging
+import subprocess
 from time import sleep
 from typing import Callable
 
@@ -54,7 +55,8 @@ def push_loop(config: dict, shutdown_callback: Callable) -> None:
 
 def shutdown():
     logging.info("-" * 20 + " Shutting Down " + "-" * 20)
-    sys.exit(0)  # TODO: temporary, replace with actual shutdown command later
+    if DRY_RUN:
+        sys.exit(0)
 
 
 def main():

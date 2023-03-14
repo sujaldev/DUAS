@@ -4,7 +4,7 @@ import argparse
 from pathlib import Path
 
 __all__ = [
-    "CONFIG_FILE", "LOG_FILE", "LOG_LEVEL", "LOG_FORMAT", "LOG_DATE_FORMAT", "INTERVAL"
+    "CONFIG_FILE", "LOG_FILE", "LOG_LEVEL", "LOG_FORMAT", "LOG_DATE_FORMAT", "INTERVAL", "DRY_RUN"
 ]
 
 parser = argparse.ArgumentParser(
@@ -25,6 +25,8 @@ parser.add_argument("-d", "--date-format", help="The date format in logs, see py
                     default="%a %d-%b-%Y %H:%M:%S")
 parser.add_argument("-i", "--interval", help="Amount of time to wait after a successful healthcheck.", default=30,
                     type=int)
+parser.add_argument("--dry-run", help="Testing mode, will not shutdown server but will create a log",
+                    action="store_true")
 
 args = parser.parse_args(sys.argv[1:])
 
@@ -34,3 +36,4 @@ LOG_LEVEL = logging.__dict__[args.log_level]
 LOG_FORMAT = args.log_format
 LOG_DATE_FORMAT = args.date_format
 INTERVAL = args.interval
+DRY_RUN = args.dry_run
