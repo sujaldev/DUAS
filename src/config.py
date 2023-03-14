@@ -1,6 +1,7 @@
 import sys
 import json
 import logging
+from typing import Union
 from pathlib import Path
 
 from jsonschema import Draft202012Validator, ValidationError
@@ -10,7 +11,7 @@ class Config:
     PROJECT_ROOT = Path(__file__).parent.resolve()
     SCHEMA_PATH = PROJECT_ROOT / "schema.json"
 
-    def __init__(self, path: str | Path = None):
+    def __init__(self, path: Union[str, Path] = None):
         if not isinstance(path, Path):
             path = Path(path or self.PROJECT_ROOT / "duas.conf.json").resolve()
 
