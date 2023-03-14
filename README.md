@@ -30,6 +30,30 @@ read the schema.json in the meantime. Here's an example:
 }
 ```
 
+## Usage
+
+```bash
+usage: duas [-h] [-c CONFIG] [-l LOG_FILE] [--log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [-f LOG_FORMAT] [-d DATE_FORMAT] [-i INTERVAL] [--dry-run]
+
+Signals an auto shutdown for a device connected to a dumb UPS by checking other network devices that shut down in case of a power outage
+
+options:
+  -h, --help            show this help message and exit
+  -c CONFIG, --config CONFIG
+                        Path to the config file
+  -l LOG_FILE, --log-file LOG_FILE
+                        Path to the log file
+  --log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}
+                        Recommend level is INFO
+  -f LOG_FORMAT, --log-format LOG_FORMAT
+                        See python's logging module docs for help
+  -d DATE_FORMAT, --date-format DATE_FORMAT
+                        The date format in logs, see python's logging module docs for help
+  -i INTERVAL, --interval INTERVAL
+                        Amount of time to wait after a successful healthcheck.
+  --dry-run             Testing mode, will not shutdown server but will create a log
+```
+
 ## Installation
 
 Run the following commands on any machine, not necessarily on the machine you wish to run the script on.
