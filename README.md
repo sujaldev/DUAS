@@ -1,5 +1,7 @@
 # Dumb UPS Auto Shutdown (D.U.A.S.)
 
+> **Note** check [BlackoutDefender](https://github.com/sujaldev/Blackout-Defender) for a simpler approach.
+
 As the name suggests, this is a script that can be used to auto shutdown a server if using a dumb UPS in case of a power
 outage. This is achieved by simply pinging a host on your network which does not have power backup and will immediately
 shut down in case of a power outage.
